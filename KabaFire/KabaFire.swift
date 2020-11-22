@@ -15,11 +15,9 @@ public class KabaFire {
     public static func get<T: Codable>(url: String, model: T.Type, completion: @escaping(T) -> Void) {
         let task = URLSession.shared.dataTask(with: URL(string: url)!) {(data, response, error) in
             guard let data = data else { return }
-            let json: String = String(data: data, encoding: .utf8)!
-            let jsonData = json.data(using: .utf8)!
             
             do {
-                let value: T = try JSONDecoder().decode(T.self, from: jsonData)
+                let value: T = try JSONDecoder().decode(T.self, from: data)
                 completion(value)
             } catch {
                 // noop
@@ -28,4 +26,22 @@ public class KabaFire {
 
         task.resume()
     }
+    
+//    public static func post<T: Codable>() {
+//
+//    }
+//
+//    public static func put() {
+//
+//    }
+//
+//    public static func delete() {
+//
+//    }
+    
+//    private static func decode<T>(json: String) -> T {
+//
+//    }
+//
+    
 }
