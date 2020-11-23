@@ -13,15 +13,36 @@ public class KabaFire {
     public static let name = "kabaya"
     
     public static func get<T: Codable>(url: String, model: T.Type, completion: @escaping(T) -> Void) {
-            let uri = URL(string: url)!
-            let request = URLRequest(url: uri)
-            
-            self.request(uri: uri, request: request, completion: { value in
+        self.request(url: url, method: "GET", completion: { value in
                 completion(value)
-            })
+        })
     }
     
-    private static func request<T: Codable>(uri: URL, request: URLRequest, completion: @escaping(T) -> Void) {
+    // TODO: bodyに未対応
+    public static func post<T: Codable>(url: String, model: T.Type, completion: @escaping(T) -> Void) -> Void {
+        self.request(url: url, method: "POST", completion: { value in
+            completion(value)
+        })
+    }
+    
+    // TODO: bodyに未対応
+    public static func put<T: Codable>(url: String, model: T.Type, completion: @escaping(T) -> Void) -> Void {
+        self.request(url: url, method: "PUT", completion: { value in
+            completion(value)
+        })
+    }
+    
+    public static func delete<T: Codable>(url: String, model: T.Type, completion: @escaping(T) -> Void) -> Void {
+        self.request(url: url, method: "DELETE", completion: { value in
+            completion(value)
+        })
+    }
+    
+    private static func request<T: Codable>(url: String, method: String, completion: @escaping(T) -> Void) {
+        let uri = URL(string: url)!
+        var request = URLRequest(url: uri)
+        request.httpMethod = method
+
         let task = URLSession.shared.dataTask(with: uri) {(data, response, error) in
             guard let data = data else { return }
             do {
@@ -33,33 +54,4 @@ public class KabaFire {
         }
         task.resume()
     }
-    
-//    public static func post<T: Codable>(url: String) -> Void {
-//        let uri = URL(string: url)
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST" // この一行がないとGetになる
-//
-//        let task = URLSession.shared.dataTask(with: uri) {(data, response, error) in
-//        guard let data = data else { return }
-//
-//            let value: T = try JSONDecoder().decode(T.self, from: data)
-//            completion(value)
-//        } catch {
-//            // noop
-//        }
-//    }
-//
-//    public static func put() {
-//
-//    }
-//
-//    public static func delete() {
-//
-//    }
-    
-//    private static func decode<T>(json: String) -> T {
-//
-//    }
-//
-    
 }
