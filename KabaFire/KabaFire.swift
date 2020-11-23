@@ -19,14 +19,14 @@ public class KabaFire {
     }
     
     // TODO: bodyに未対応
-    public static func post<T: Codable>(url: String, model: T.Type, header: [String : String] = [:], completion: @escaping(T) -> Void) -> Void {
+    public static func post<T: Codable>(url: String, model: T.Type, header: [String : String] = [:], body: [String : Any], completion: @escaping(T) -> Void) -> Void {
         self.request(url: url, method: "POST", header: header, completion: { value in
             completion(value)
         })
     }
     
     // TODO: bodyに未対応
-    public static func put<T: Codable>(url: String, model: T.Type, header: [String : String] = [:], completion: @escaping(T) -> Void) -> Void {
+    public static func put<T: Codable>(url: String, model: T.Type, body: [String : Any], header: [String : String] = [:], completion: @escaping(T) -> Void) -> Void {
         self.request(url: url, method: "PUT", completion: { value in
             completion(value)
         })
@@ -39,16 +39,20 @@ public class KabaFire {
     }
     
     // 現状headerには、Stringしかセット出来ない。
-    private static func request<T: Codable>(url: String, method: String, header: [String : String] = [:], completion: @escaping(T) -> Void) {
+    private static func request<T: Codable>(url: String, method: String, header: [String : String] = [:], body: [String : Any] = [:], completion: @escaping(T) -> Void) {
         let uri = URL(string: url)!
         
         var request = URLRequest(url: uri)
         request.httpMethod = method
         
-        // headerを付与
+        // add header
         for (key, value) in header {
             request.setValue(key, forHTTPHeaderField: value)
         }
+        
+        // add body
+        let jsonData = try? JSONSerialization.data(withJSONObject: body)
+        request.httpBody = jsonData
 
         let task = URLSession.shared.dataTask(with: uri) {(data, response, error) in
             guard let data = data else { return }
