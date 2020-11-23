@@ -12,8 +12,8 @@ import UIKit
 public class KabaFire {
     public static let name = "kabaya"
     
-    public static func get<T: Codable>(url: String, model: T.Type, header: [String : String] = [:], completion: @escaping(T) -> Void) {
-        self.request(url: url, method: "GET", completion: { value in
+    public static func get<T: Codable>(url: String, model: T.Type, query: [String : String], header: [String : String] = [:], completion: @escaping(T) -> Void) {
+        self.request(url: url, method: "GET", query: query, completion: { value in
                 completion(value)
         })
     }
@@ -38,8 +38,16 @@ public class KabaFire {
         })
     }
     
-    // 現状headerには、Stringしかセット出来ない。
-    private static func request<T: Codable>(url: String, method: String, header: [String : String] = [:], body: [String : Any] = [:], completion: @escaping(T) -> Void) {
+    // 現状headerとqueryには、Stringしかセット出来ない。
+    private static func request<T: Codable>(url: String, method: String, header: [String : String] = [:], query: [String : String] = [:], body: [String : Any] = [:], completion: @escaping(T) -> Void) {
+        // add query
+        var components = URLComponents(string: url)!
+        components.queryItems = query.map { (key, value) in
+            URLQueryItem(name: key, value: value)
+        }
+        // uriの世界では＋は、&, ＄と同じように予約語であり使ってはならない。本来はエスケープしなければならないが、swiftはこの機能を提供していないため手動でエスケープする。
+        components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
+        
         let uri = URL(string: url)!
         
         var request = URLRequest(url: uri)
@@ -49,6 +57,7 @@ public class KabaFire {
         for (key, value) in header {
             request.setValue(key, forHTTPHeaderField: value)
         }
+        
         
         // add body
         let jsonData = try? JSONSerialization.data(withJSONObject: body)
