@@ -12,7 +12,7 @@ import UIKit
 public class KabaFire {
     public static let name = "kabaya"
     
-    public static func get<T: Codable>(url: String, model: T.Type, query: [String : String], header: [String : String] = [:], completion: @escaping(T) -> Void) {
+    public static func get<T: Codable>(url: String, model: T.Type, query: [String : String] = [:], header: [String : String] = [:], completion: @escaping(T) -> Void) {
         self.request(url: url, method: "GET", query: query, completion: { value in
                 completion(value)
         })

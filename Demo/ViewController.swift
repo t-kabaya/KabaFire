@@ -17,11 +17,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.getRequest()
+    }
+    
+    func getRequest() {
         let url = "https://swapi.dev/api/people/1/"
-        KabaFire.get(url: url, model: Person.self, completion: { response in
+        KabaFire.get(url: url, model: Person.self) { response in
             let person: Person = response
             print(person)
-        })
-        
+        }
     }
 }
