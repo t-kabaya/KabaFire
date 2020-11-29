@@ -3,12 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		F1735FC4256A5BED00FECBD8 /* KabaFire.h in Headers */ = {isa = PBXBuildFile; fileRef = F1735FC2256A5BED00FECBD8 /* KabaFire.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F1735FCB256A5C0800FECBD8 /* KabaFire.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1735FCA256A5C0800FECBD8 /* KabaFire.swift */; };
+		F1735FCB256A5C0800FECBD8 /* KabaFire.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1735FCA256A5C0800FECBD8 /* KabaFire.swift */; platformFilter = ios; };
 		F1735FD3256A731500FECBD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1735FD2256A731500FECBD8 /* AppDelegate.swift */; };
 		F1735FD5256A731500FECBD8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1735FD4256A731500FECBD8 /* SceneDelegate.swift */; };
 		F1735FD7256A731500FECBD8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1735FD6256A731500FECBD8 /* ViewController.swift */; };
