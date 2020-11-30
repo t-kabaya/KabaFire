@@ -1,0 +1,11 @@
+framework module KabaFire {
+  umbrella header "KabaFire.h"
+
+  export *
+  module * { export * }
+}
+
+module KabaFire.Swift {
+    header "KabaFire-Swift.h"
+    requires objc
+}
